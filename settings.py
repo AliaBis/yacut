@@ -5,7 +5,7 @@ FORBIDDEN_CHARACTERS = r'^[a-z]+://[^\/\?:]+(:[0-9]+)?(\/.*?)?(\?.*)?$'
 LENGTH = 6
 
 
-class Config():
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
+class Config:
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI', default='sqlite:///db.sqlite3')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    SECRET_KEY = os.getenv('SECRET_KEY', default='SECRET_KEY')
