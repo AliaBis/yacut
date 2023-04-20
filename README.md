@@ -40,6 +40,16 @@ python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+Добавить скрытый файл .env c настройками подключения базы данных.
+Пример: 
+```
+FLASK_APP=yacut
+FLASK_ENV=development
+FLASK_DEBUG=True
+DATABASE_URI=sqlite:///db.sqlite3
+SECRET_KEY='придумать свой ключ'
+```
+
 Запустить проект:
 
 ```
