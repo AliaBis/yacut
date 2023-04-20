@@ -1,9 +1,9 @@
 from flask import abort, flash, redirect, render_template
-from .unique_short import get_unique_short_id
-from . import app, db
 
+from . import app, db
 from .forms import URLMapForm
 from .models import URLMap
+from .unique_short import get_unique_short_id
 
 
 @app.route('/', methods=['GET', 'POST'])

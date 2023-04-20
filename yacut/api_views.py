@@ -3,6 +3,8 @@ from re import match
 
 from flask import jsonify, request
 
+from settings import ALLOWED_CHARACTERS, FORBIDDEN_CHARACTERS
+
 from . import app, db
 from .error_handlers import InvalidAPIUsageError
 from .models import URLMap
@@ -16,12 +18,11 @@ def create_id():
         raise InvalidAPIUsageError('Отсутствует тело запроса')
     if 'url' not in data:
         raise InvalidAPIUsageError('"url" является обязательным полем!')
-    if not match(
-            r'^[a-z]+://[^\/\?:]+(:[0-9]+)?(\/.*?)?(\?.*)?$', data['url']):
+    if not match(FORBIDDEN_CHARACTERS, data['url']):
         raise InvalidAPIUsageError('Указан недопустимый URL')
     if not data.get('custom_id'):
         data['custom_id'] = get_unique_short_id()
-    if not match(r'^[A-Za-z0-9]{1,16}$', data['custom_id']):
+    if not match(ALLOWED_CHARACTERS, data['custom_id']):
         raise InvalidAPIUsageError(
             'Указано недопустимое имя для короткой ссылки')
     if URLMap.query.filter_by(short=data['custom_id']).first():
