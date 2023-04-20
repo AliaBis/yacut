@@ -1,0 +1,22 @@
+{% extends 'base.html' %} 
+{% block title %}404. Если тут что-то было, теперь этого тут нет.{% endblock %}
+{% block content %}
+<main>
+  <section class="container my-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+          <p class="text-center">
+            <h5 class="text-center">Если тут что-то было, теперь этого тут нет.</h5>
+          <p>
+        </div>
+        <div class="col-sm">
+          <img class="img-fluid mx-auto d-block" src="{{ url_for('static', filename='img/404.png') }}" alt="" />
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
