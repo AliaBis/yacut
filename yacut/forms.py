@@ -21,7 +21,6 @@ class URLMapForm(FlaskForm):
                     message='Используйте символы [A-Za-z0-9]')])
     submit = SubmitField('Создать')
 
-
     def validate_custom_id(self, field):
         if URLMap.query.filter_by(short=field.data).first():
             raise ValidationError(f'Имя {field.data} уже занято!')
