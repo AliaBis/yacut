@@ -1,42 +1,24 @@
 from http import HTTPStatus
-from re import match
 
 from flask import jsonify, request
 
-from settings import ALLOWED_CHARACTERS, FORBIDDEN_CHARACTERS
-
-from . import app, db
+from . import app
+from .crud import (create_url_map, url_map_by_short_id,
+                   validate_request_body)
 from .error_handlers import InvalidAPIUsageError
-from .models import URLMap
-from .unique_short import get_unique_short_id
 
 
 @app.route('/api/id/', methods=['POST'])
 def create_id():
-    data = request.get_json(silent=True)
-    if not data:
-        raise InvalidAPIUsageError('Отсутствует тело запроса')
-    if 'url' not in data:
-        raise InvalidAPIUsageError('"url" является обязательным полем!')
-    if not match(FORBIDDEN_CHARACTERS, data['url']):
-        raise InvalidAPIUsageError('Указан недопустимый URL')
-    if not data.get('custom_id'):
-        data['custom_id'] = get_unique_short_id()
-    if not match(ALLOWED_CHARACTERS, data['custom_id']):
-        raise InvalidAPIUsageError(
-            'Указано недопустимое имя для короткой ссылки')
-    if URLMap.query.filter_by(short=data['custom_id']).first():
-        raise InvalidAPIUsageError(f'Имя "{data["custom_id"]}" уже занято.')
-    url_map = URLMap()
-    url_map.from_dict(data)
-    db.session.add(url_map)
-    db.session.commit()
+    request_data = request.get_json(silent=True)
+    validate_request_body(request_data)
+    url_map = create_url_map(request_data)
     return jsonify(url_map.to_dict()), HTTPStatus.CREATED
 
 
 @app.route('/api/id/<short_id>/', methods=['GET'])
 def get_original_link(short_id):
-    url_map = URLMap.query.filter_by(short=short_id).first()
+    url_map = url_map_by_short_id(short_id)
     if not url_map:
         raise InvalidAPIUsageError(
             'Указанный id не найден', HTTPStatus.NOT_FOUND)
