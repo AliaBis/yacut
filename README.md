@@ -2,7 +2,14 @@
 
 ### Сервис укорачивания ссылок. Его назначение — ассоциировать длинную пользовательскую ссылку с короткой, которую предлагает сам пользователь или предоставляет сервис.
 
+<<<<<<< HEAD
 ![страница сервиса](https://github.com/AliaBis/yacut/blob/master/yacut.png)
+=======
+
+![Yacut](https://github.com/AliaBis/yacut/blob/master/yacut.png)
+
+
+>>>>>>> e556b2b8d42dba9f349603604b70f0128b39c583
 ## Используемые технологии:
 
 ***Python, FLask, SQLAlchemy, SQLite***
